@@ -18,6 +18,34 @@ export const ContactForm: React.FC<ContactFormProps> = ({ content, onSubmit }) =
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // Function to send notification to WhatsApp
+  const sendToWhatsApp = (data: typeof formData) => {
+    const message = `🔔 *طلب جديد - ChabakaPro*\n\n👤 *الاسم:* ${data.name}\n📞 *الهاتف:* ${data.phone}\n🏪 *النشاط:* ${data.business}\n💬 *الرسالة:* ${data.message || 'لا يوجد'}\n\n⏰ *التاريخ:* ${new Date().toLocaleString('ar-MA')}\n\n---\n_تم الإرسال من موقع tech.chabakapro.com_`;
+    
+    // Open WhatsApp with pre-filled message
+    const whatsappUrl = `https://wa.me/212722618635?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
+  };
+
+  // Function to send notification via Email (using mailto)
+  const sendToEmail = (data: typeof formData) => {
+    const subject = `🔔 طلب جديد من ${data.name} - ChabakaPro`;
+    const body = `طلب جديد من موقع ChabakaPro\n\n` +
+      `━━━━━━━━━━━━━━━━━━━━━━\n` +
+      `👤 الاسم: ${data.name}\n` +
+      `📞 الهاتف: ${data.phone}\n` +
+      `🏪 نوع النشاط: ${data.business}\n` +
+      `💬 الرسالة: ${data.message || 'لا يوجد'}\n` +
+      `━━━━━━━━━━━━━━━━━━━━━━\n\n` +
+      `⏰ تاريخ الطلب: ${new Date().toLocaleString('ar-MA')}\n` +
+      `🌐 المصدر: https://tech.chabakapro.com\n\n` +
+      `---\n` +
+      `ChabakaPro IT Solutions`;
+    
+    const mailtoUrl = `mailto:abdellaherraoui3@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.location.href = mailtoUrl;
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name || !formData.phone || !formData.business) return;
@@ -27,20 +55,26 @@ export const ContactForm: React.FC<ContactFormProps> = ({ content, onSubmit }) =
     // Collect device info when user submits the form
     const deviceInfo = getDeviceInfo();
     
-    // Simulate a small delay for UX
+    // Create submission object
+    const submission: UserSubmission = {
+      id: Date.now().toString(),
+      name: formData.name,
+      phone: formData.phone,
+      business: formData.business,
+      message: formData.message,
+      timestamp: new Date(),
+      status: 'new',
+      deviceInfo: deviceInfo
+    };
+    
+    // Save to local storage via parent
+    onSubmit(submission);
+    
+    // Send to WhatsApp (primary notification)
+    sendToWhatsApp(formData);
+    
+    // Small delay then show success
     setTimeout(() => {
-      const submission: UserSubmission = {
-        id: Date.now().toString(),
-        name: formData.name,
-        phone: formData.phone,
-        business: formData.business,
-        message: formData.message,
-        timestamp: new Date(),
-        status: 'new',
-        deviceInfo: deviceInfo
-      };
-      
-      onSubmit(submission);
       setIsSubmitting(false);
       setIsSubmitted(true);
       
@@ -49,7 +83,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({ content, onSubmit }) =
         setFormData({ name: '', phone: '', business: '', message: '' });
         setIsSubmitted(false);
       }, 3000);
-    }, 800);
+    }, 500);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {

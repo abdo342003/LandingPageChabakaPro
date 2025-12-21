@@ -35,6 +35,15 @@ export const ContactModal: React.FC<ContactModalProps> = ({ content, isOpen, onC
     };
   }, [isOpen, onClose]);
 
+  // Function to send notification to WhatsApp
+  const sendToWhatsApp = (data: typeof formData) => {
+    const message = `🔔 *طلب جديد - ChabakaPro*\n\n👤 *الاسم:* ${data.name}\n📞 *الهاتف:* ${data.phone}\n🏪 *النشاط:* ${data.business}\n💬 *الرسالة:* ${data.message || 'لا يوجد'}\n\n⏰ *التاريخ:* ${new Date().toLocaleString('ar-MA')}\n\n---\n_تم الإرسال من موقع tech.chabakapro.com_`;
+    
+    // Open WhatsApp with pre-filled message
+    const whatsappUrl = `https://wa.me/212722618635?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name || !formData.phone || !formData.business) return;
@@ -42,19 +51,26 @@ export const ContactModal: React.FC<ContactModalProps> = ({ content, isOpen, onC
     setIsSubmitting(true);
     const deviceInfo = getDeviceInfo();
     
+    // Create submission object
+    const submission: UserSubmission = {
+      id: Date.now().toString(),
+      name: formData.name,
+      phone: formData.phone,
+      business: formData.business,
+      message: formData.message,
+      timestamp: new Date(),
+      status: 'new',
+      deviceInfo: deviceInfo
+    };
+    
+    // Save to local storage via parent
+    onSubmit(submission);
+    
+    // Send to WhatsApp (primary notification)
+    sendToWhatsApp(formData);
+    
+    // Show success
     setTimeout(() => {
-      const submission: UserSubmission = {
-        id: Date.now().toString(),
-        name: formData.name,
-        phone: formData.phone,
-        business: formData.business,
-        message: formData.message,
-        timestamp: new Date(),
-        status: 'new',
-        deviceInfo: deviceInfo
-      };
-      
-      onSubmit(submission);
       setIsSubmitting(false);
       setIsSubmitted(true);
       
@@ -63,7 +79,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({ content, isOpen, onC
         setIsSubmitted(false);
         onClose();
       }, 2500);
-    }, 800);
+    }, 500);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
