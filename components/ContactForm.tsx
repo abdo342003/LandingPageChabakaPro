@@ -67,23 +67,33 @@ export const ContactForm: React.FC<ContactFormProps> = ({ content, onSubmit }) =
       deviceInfo: deviceInfo
     };
     
-    // Save to local storage via parent
+    // BACKUP: Save directly to localStorage first
+    try {
+      const existingData = localStorage.getItem('chabakapro_submissions');
+      const submissions = existingData ? JSON.parse(existingData) : [];
+      submissions.unshift(submission);
+      localStorage.setItem('chabakapro_submissions', JSON.stringify(submissions));
+      console.log('✅ Submission saved to localStorage:', submission);
+    } catch (error) {
+      console.error('Error saving to localStorage:', error);
+    }
+    
+    // Also notify parent component
     onSubmit(submission);
     
-    // Send to WhatsApp (primary notification)
-    sendToWhatsApp(formData);
+    // Send to WhatsApp (opens in new tab, won't affect current page)
+    const whatsappMessage = `🔔 *طلب جديد - ChabakaPro*\n\n👤 *الاسم:* ${formData.name}\n📞 *الهاتف:* ${formData.phone}\n🏪 *النشاط:* ${formData.business}\n💬 *الرسالة:* ${formData.message || 'لا يوجد'}\n\n⏰ *التاريخ:* ${new Date().toLocaleString('ar-MA')}\n\n---\n_تم الإرسال من موقع tech.chabakapro.com_`;
+    window.open(`https://wa.me/212722618635?text=${encodeURIComponent(whatsappMessage)}`, '_blank');
     
-    // Small delay then show success
+    // Show success
+    setIsSubmitting(false);
+    setIsSubmitted(true);
+    
+    // Reset after showing success
     setTimeout(() => {
-      setIsSubmitting(false);
-      setIsSubmitted(true);
-      
-      // Reset after showing success
-      setTimeout(() => {
-        setFormData({ name: '', phone: '', business: '', message: '' });
-        setIsSubmitted(false);
-      }, 3000);
-    }, 500);
+      setFormData({ name: '', phone: '', business: '', message: '' });
+      setIsSubmitted(false);
+    }, 3000);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
