@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { AdminContent, UserSubmission, Language } from '../types';
-import { X, Download, Trash2, Users, Clock, CheckCircle, AlertCircle, Search, Monitor, Smartphone, Globe, Info, ChevronDown, ChevronUp } from 'lucide-react';
+import { X, Download, Trash2, Users, Clock, CheckCircle, AlertCircle, Search, Monitor, Smartphone, Globe, Info, ChevronDown, ChevronUp, LogOut } from 'lucide-react';
 
 interface AdminPanelProps {
   content: AdminContent;
@@ -8,6 +8,7 @@ interface AdminPanelProps {
   onClose: () => void;
   onUpdateStatus: (id: string, status: UserSubmission['status']) => void;
   onDelete: (id: string) => void;
+  onLogout?: () => void;
   lang: Language;
 }
 
@@ -17,6 +18,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
   onClose, 
   onUpdateStatus, 
   onDelete,
+  onLogout,
   lang 
 }) => {
   const [filter, setFilter] = useState<'all' | UserSubmission['status']>('all');
@@ -119,12 +121,23 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
             <h2 className="text-2xl font-bold">{content.title}</h2>
             <p className="text-slate-300 text-sm mt-1">Ctrl+Shift+A to toggle</p>
           </div>
-          <button
-            onClick={onClose}
-            className="bg-white/10 hover:bg-white/20 p-3 rounded-xl transition-colors"
-          >
-            <X className="w-6 h-6" />
-          </button>
+          <div className="flex items-center gap-3">
+            {onLogout && (
+              <button
+                onClick={onLogout}
+                className="bg-red-500/20 hover:bg-red-500/30 text-red-300 hover:text-red-200 px-4 py-2 rounded-xl transition-colors flex items-center gap-2 text-sm font-medium"
+              >
+                <LogOut className="w-4 h-4" />
+                {lang === 'ar' ? 'تسجيل الخروج' : 'Déconnexion'}
+              </button>
+            )}
+            <button
+              onClick={onClose}
+              className="bg-white/10 hover:bg-white/20 p-3 rounded-xl transition-colors"
+            >
+              <X className="w-6 h-6" />
+            </button>
+          </div>
         </div>
 
         {/* Stats Cards */}

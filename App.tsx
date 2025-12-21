@@ -9,20 +9,50 @@ import { Testimonials } from './components/Testimonials';
 import { ContactModal } from './components/ContactModal';
 import { Footer } from './components/Footer';
 import { AdminPanel } from './components/AdminPanel';
+import { AdminLogin } from './components/AdminLogin';
 import { CookieConsent } from './components/CookieConsent';
 
-// Local storage key for submissions
-const STORAGE_KEY = 'chabakapro_submissions';
+// Local storage keys
+const STORAGE_KEYS = {
+  SUBMISSIONS: 'chabakapro_submissions',
+  LANGUAGE: 'chabakapro_language',
+  ADMIN_SESSION: 'chabakapro_admin_session',
+  COOKIE_CONSENT: 'chabakapro_cookie_consent',
+};
+
+// Admin session expiry (24 hours in milliseconds)
+const ADMIN_SESSION_EXPIRY = 24 * 60 * 60 * 1000;
 
 function App() {
-  const [lang, setLang] = useState<Language>('ar');
+  const [lang, setLang] = useState<Language>(() => {
+    // Load language preference from localStorage
+    const savedLang = localStorage.getItem(STORAGE_KEYS.LANGUAGE);
+    return (savedLang === 'ar' || savedLang === 'fr') ? savedLang : 'ar';
+  });
   const [showAdmin, setShowAdmin] = useState(false);
+  const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(() => {
+    // Check for valid admin session
+    const session = localStorage.getItem(STORAGE_KEYS.ADMIN_SESSION);
+    if (session) {
+      try {
+        const { expiry } = JSON.parse(session);
+        if (expiry && Date.now() < expiry) {
+          return true;
+        }
+        // Session expired, clean up
+        localStorage.removeItem(STORAGE_KEYS.ADMIN_SESSION);
+      } catch (e) {
+        localStorage.removeItem(STORAGE_KEYS.ADMIN_SESSION);
+      }
+    }
+    return false;
+  });
   const [showContactModal, setShowContactModal] = useState(false);
   const [submissions, setSubmissions] = useState<UserSubmission[]>([]);
 
   // Load submissions from localStorage on mount
   useEffect(() => {
-    const stored = localStorage.getItem(STORAGE_KEY);
+    const stored = localStorage.getItem(STORAGE_KEYS.SUBMISSIONS);
     if (stored) {
       try {
         const parsed = JSON.parse(stored);
@@ -32,27 +62,63 @@ function App() {
         })));
       } catch (e) {
         console.error('Error loading submissions:', e);
+        // Reset corrupted data
+        localStorage.removeItem(STORAGE_KEYS.SUBMISSIONS);
       }
     }
   }, []);
 
   // Save submissions to localStorage whenever they change
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(submissions));
+    if (submissions.length > 0) {
+      localStorage.setItem(STORAGE_KEYS.SUBMISSIONS, JSON.stringify(submissions));
+    }
   }, [submissions]);
+
+  // Save language preference
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEYS.LANGUAGE, lang);
+  }, [lang]);
+
+  // Handle admin authentication with session persistence
+  const handleAdminLogin = useCallback((password: string) => {
+    if (password === 'ChabakaPro2025!') {
+      setIsAdminAuthenticated(true);
+      // Save session with expiry
+      const session = {
+        authenticated: true,
+        expiry: Date.now() + ADMIN_SESSION_EXPIRY,
+        loginTime: new Date().toISOString()
+      };
+      localStorage.setItem(STORAGE_KEYS.ADMIN_SESSION, JSON.stringify(session));
+      return true;
+    }
+    return false;
+  }, []);
+
+  // Handle admin logout
+  const handleAdminLogout = useCallback(() => {
+    setIsAdminAuthenticated(false);
+    setShowAdmin(false);
+    localStorage.removeItem(STORAGE_KEYS.ADMIN_SESSION);
+  }, []);
 
   // Secret keyboard shortcut: Ctrl+Shift+A to toggle admin panel
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.ctrlKey && e.shiftKey && e.key === 'A') {
         e.preventDefault();
-        setShowAdmin(prev => !prev);
+        if (isAdminAuthenticated) {
+          setShowAdmin(prev => !prev);
+        } else {
+          setShowAdmin(true);
+        }
       }
     };
     
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
+  }, [isAdminAuthenticated]);
 
   // Auto-show contact modal after 2 seconds (only once per session)
   useEffect(() => {
@@ -129,14 +195,27 @@ function App() {
       
       {/* Hidden Admin Panel - Toggle with Ctrl+Shift+A */}
       {showAdmin && (
-        <AdminPanel
-          content={adminContent}
-          submissions={submissions}
-          onClose={() => setShowAdmin(false)}
-          onUpdateStatus={handleUpdateStatus}
-          onDelete={handleDeleteSubmission}
-          lang={lang}
-        />
+        isAdminAuthenticated ? (
+          <AdminPanel
+            content={adminContent}
+            submissions={submissions}
+            onClose={() => setShowAdmin(false)}
+            onUpdateStatus={handleUpdateStatus}
+            onDelete={handleDeleteSubmission}
+            onLogout={handleAdminLogout}
+            lang={lang}
+          />
+        ) : (
+          <AdminLogin
+            onLogin={(password) => {
+              if (!handleAdminLogin(password)) {
+                alert(lang === 'ar' ? 'كلمة المرور غير صحيحة' : 'Mot de passe incorrect');
+              }
+            }}
+            onClose={() => setShowAdmin(false)}
+            lang={lang}
+          />
+        )
       )}
       
       {/* Cookie Consent Banner */}

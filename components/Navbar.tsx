@@ -10,25 +10,35 @@ interface NavbarProps {
 
 export const Navbar: React.FC<NavbarProps> = ({ lang, setLang }) => {
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-brand-navy/95 backdrop-blur-md border-b border-white/10 shadow-lg">
-      <div className="max-w-4xl mx-auto px-6 py-4 flex justify-between items-center">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-[#0a1628]/90 backdrop-blur-xl border-b border-cyan-500/10">
+      <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
         
+        {/* Logo */}
         <div className="flex items-center gap-3 hover:opacity-90 transition-opacity cursor-default">
-          <div className="relative flex items-center justify-center w-12 h-12 bg-brand-teal rounded-xl shadow-lg shadow-brand-teal/20 border border-white/10">
-             <Shield className="w-7 h-7 text-white" strokeWidth={2.5} />
-             <span className="absolute -bottom-1 text-[10px] font-black text-white bg-brand-navy px-1 rounded-full border border-brand-teal">CP</span>
+          <div className="relative flex items-center justify-center w-10 h-10 bg-gradient-to-br from-cyan-500 to-teal-500 rounded-lg shadow-lg shadow-cyan-500/20">
+             <Shield className="w-6 h-6 text-white" strokeWidth={2.5} />
           </div>
-          <div className="flex flex-col">
-            <span className="text-2xl font-black tracking-tight text-white leading-none">
-              ChabakaPro
+          <div className="flex items-baseline gap-1">
+            <span className="text-xl font-bold text-white">
+              Chabaka
             </span>
-            <span className="text-xs text-brand-teal font-medium tracking-wide opacity-90">
-              IT Solutions
+            <span className="text-xl font-bold text-cyan-400">
+              Pro
             </span>
           </div>
         </div>
 
-        <LanguageSwitcher currentLang={lang} onToggle={setLang} />
+        {/* Right Side */}
+        <div className="flex items-center gap-4">
+          <LanguageSwitcher currentLang={lang} onToggle={setLang} />
+          
+          <a 
+            href="tel:+212722618635"
+            className="hidden sm:flex bg-gradient-to-r from-cyan-500 to-teal-500 hover:from-cyan-400 hover:to-teal-400 text-white text-sm font-semibold py-2.5 px-5 rounded-lg transition-all shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/30"
+          >
+            {lang === 'ar' ? 'اتصل الآن' : 'Contactez-nous'}
+          </a>
+        </div>
       </div>
     </nav>
   );

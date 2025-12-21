@@ -30,6 +30,32 @@ export const CONTENT: Record<Language, Content> = {
           "شرح بسيط للاستعمال"
         ],
         button: "طلب العرض"
+      },
+      offer3: {
+        name: "عرض الحماية الرقمية الشاملة",
+        price: "800 – 1200 درهم / مرة واحدة",
+        badge: "🛡️ حماية شاملة",
+        features: [
+          "فحص شامل للحاسوب والهاتف لاكتشاف الفيروسات",
+          "تحليل الملفات والتطبيقات المشبوهة",
+          "إزالة الفيروسات وتنظيف عميق للنظام",
+          "إعداد جدار ناري ومضاد فيروسات",
+          "تقرير مفصل عن حالة أجهزتك"
+        ],
+        button: "احمِ أجهزتك الآن"
+      },
+      offer4: {
+        name: "تحسين سرعة الواي فاي وتوسيع التغطية",
+        price: "حسب المساحة",
+        badge: "📡 إشارة قوية",
+        features: [
+          "تشخيص نقاط ضعف الإشارة",
+          "تركيب Repeaters عالية الجودة",
+          "تغطية كاملة للمنزل أو المحل",
+          "إنترنت قوي ومستقر في كل الزوايا",
+          "مناسب للمنازل، المقاهي والمكاتب"
+        ],
+        button: "وداعًا لضعف الإشارة"
       }
     },
     stats: {
@@ -110,6 +136,32 @@ export const CONTENT: Record<Language, Content> = {
           "Explication simple de l'utilisation"
         ],
         button: "Demander un devis"
+      },
+      offer3: {
+        name: "Protection Numérique Complète",
+        price: "800 – 1200 DH / une fois",
+        badge: "🛡️ Protection Totale",
+        features: [
+          "Analyse complète PC et téléphone contre les virus",
+          "Analyse des fichiers et applications suspectes",
+          "Suppression des virus et nettoyage profond",
+          "Configuration pare-feu et antivirus",
+          "Rapport détaillé sur l'état de vos appareils"
+        ],
+        button: "Protégez vos appareils"
+      },
+      offer4: {
+        name: "Amélioration Wi-Fi & Extension",
+        price: "Selon la surface",
+        badge: "📡 Signal Fort",
+        features: [
+          "Diagnostic des zones de faible signal",
+          "Installation de Repeaters haute qualité",
+          "Couverture complète maison ou commerce",
+          "Internet stable dans tous les coins",
+          "Idéal pour maisons, cafés et bureaux"
+        ],
+        button: "Adieu signal faible"
       }
     },
     stats: {

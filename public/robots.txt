@@ -1,0 +1,11 @@
+# Robots.txt for ChabakaPro
+# https://tech.chabakapro.com
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://tech.chabakapro.com/sitemap.xml
+
+# Crawl-delay for respectful crawling
+Crawl-delay: 1

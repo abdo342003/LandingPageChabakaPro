@@ -1,0 +1,21 @@
+{
+  "name": "ChabakaPro - تركيب واي فاي وكاميرات",
+  "short_name": "ChabakaPro",
+  "description": "تركيب وصيانة الواي فاي والكاميرات للمقاهي والمطاعم والمحلات التجارية في المغرب",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#06b6d4",
+  "orientation": "portrait-primary",
+  "lang": "ar",
+  "dir": "rtl",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["business", "utilities"]
+}

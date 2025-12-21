@@ -21,6 +21,20 @@ export interface Content {
       features: string[];
       button: string;
     };
+    offer3: {
+      name: string;
+      price: string;
+      features: string[];
+      button: string;
+      badge?: string;
+    };
+    offer4: {
+      name: string;
+      price: string;
+      features: string[];
+      button: string;
+      badge?: string;
+    };
   };
   stats: {
     title: string;
