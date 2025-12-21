@@ -77,9 +77,16 @@ export const ContactModal: React.FC<ContactModalProps> = ({ content, isOpen, onC
     // Also notify parent component
     onSubmit(submission);
     
-    // Send to WhatsApp (opens in new tab, won't affect current page)
+    // Send to WhatsApp - opens for BOTH numbers
     const whatsappMessage = `🔔 *طلب جديد - ChabakaPro*\n\n👤 *الاسم:* ${formData.name}\n📞 *الهاتف:* ${formData.phone}\n🏪 *النشاط:* ${formData.business}\n💬 *الرسالة:* ${formData.message || 'لا يوجد'}\n\n⏰ *التاريخ:* ${new Date().toLocaleString('ar-MA')}\n\n---\n_تم الإرسال من موقع tech.chabakapro.com_`;
+    
+    // Open WhatsApp for primary number
     window.open(`https://wa.me/212722618635?text=${encodeURIComponent(whatsappMessage)}`, '_blank');
+    
+    // Open WhatsApp for secondary number after a short delay
+    setTimeout(() => {
+      window.open(`https://wa.me/212770707686?text=${encodeURIComponent(whatsappMessage)}`, '_blank');
+    }, 500);
     
     // Show success
     setIsSubmitting(false);
