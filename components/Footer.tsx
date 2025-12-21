@@ -12,64 +12,13 @@ export const Footer: React.FC<FooterProps> = ({ content }) => {
       <footer className="bg-brand-navy text-slate-300 py-16 px-6 border-t border-brand-teal/20">
         <div className="max-w-4xl mx-auto flex flex-col items-center text-center">
           
-          {/* Enhanced Footer Logo */}
+          {/* Footer Logo - Your Brand Image */}
           <div className="mb-8 flex flex-col items-center">
-            {/* Shield Icon */}
-            <div className="mb-4">
-              <svg viewBox="0 0 60 70" className="w-16 h-20 drop-shadow-[0_0_25px_rgba(34,211,238,0.5)]">
-                <defs>
-                  <linearGradient id="footerShieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#67e8f9" />
-                    <stop offset="50%" stopColor="#14b8a6" />
-                    <stop offset="100%" stopColor="#22d3ee" />
-                  </linearGradient>
-                  <radialGradient id="footerInnerGlow" cx="50%" cy="30%" r="60%">
-                    <stop offset="0%" stopColor="#22d3ee" stopOpacity="0.2" />
-                    <stop offset="100%" stopColor="transparent" />
-                  </radialGradient>
-                  <filter id="footerGlow" x="-50%" y="-50%" width="200%" height="200%">
-                    <feGaussianBlur stdDeviation="3" result="blur" />
-                    <feMerge>
-                      <feMergeNode in="blur" />
-                      <feMergeNode in="SourceGraphic" />
-                    </feMerge>
-                  </filter>
-                </defs>
-                
-                {/* Shield */}
-                <path 
-                  d="M30 5 L52 13 L52 35 Q52 52 30 63 Q8 52 8 35 L8 13 Z" 
-                  fill="url(#footerInnerGlow)" 
-                  stroke="url(#footerShieldGrad)" 
-                  strokeWidth="2.5"
-                  filter="url(#footerGlow)"
-                />
-                
-                {/* Morocco Map */}
-                <path 
-                  d="M20 22 C22 18, 28 17, 32 18 C36 19, 40 23, 42 28 C44 33, 43 38, 40 43 C37 48, 32 51, 27 51 C22 51, 18 48, 16 43 C14 38, 15 32, 17 27 C18 24, 19 23, 20 22 Z" 
-                  fill="none" 
-                  stroke="#22d3ee" 
-                  strokeWidth="1.5"
-                  filter="url(#footerGlow)"
-                />
-                
-                {/* Circuit Nodes */}
-                <circle cx="25" cy="28" r="2.5" fill="#67e8f9" />
-                <circle cx="35" cy="32" r="2" fill="#22d3ee" />
-                <circle cx="28" cy="42" r="2" fill="#14b8a6" />
-                <line x1="25" y1="28" x2="35" y2="32" stroke="#22d3ee" strokeWidth="1" opacity="0.7" />
-                <line x1="35" y1="32" x2="28" y2="42" stroke="#14b8a6" strokeWidth="1" opacity="0.7" />
-                <line x1="28" y1="42" x2="25" y2="28" stroke="#22d3ee" strokeWidth="1" opacity="0.7" />
-              </svg>
-            </div>
-            
-            {/* Brand Text */}
-            <h2 className="text-4xl sm:text-5xl font-black tracking-tight">
-              <span className="text-white">Chabaka</span>
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-teal-400">Pro</span>
-            </h2>
-            <p className="text-cyan-400 text-sm font-bold uppercase tracking-[0.3em] mt-2">IT Solutions</p>
+            <img 
+              src="/logo-transparent.png" 
+              alt="ChabakaPro IT Solutions"
+              className="h-24 sm:h-28 md:h-32 w-auto drop-shadow-[0_0_30px_rgba(34,211,238,0.5)] hover:drop-shadow-[0_0_40px_rgba(34,211,238,0.7)] transition-all duration-300"
+            />
           </div>
 
           {/* Trust Badges */}
