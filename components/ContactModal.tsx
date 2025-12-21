@@ -63,7 +63,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({ content, isOpen, onC
       deviceInfo: deviceInfo
     };
     
-    // BACKUP: Save directly to localStorage first
+    // Save to localStorage
     try {
       const existingData = localStorage.getItem('chabakapro_submissions');
       const submissions = existingData ? JSON.parse(existingData) : [];
@@ -74,10 +74,33 @@ export const ContactModal: React.FC<ContactModalProps> = ({ content, isOpen, onC
       console.error('Error saving to localStorage:', error);
     }
     
-    // Also notify parent component
+    // Notify parent component
     onSubmit(submission);
     
-    // Send to WhatsApp - opens for BOTH numbers
+    // 📧 SEND EMAIL via FormSubmit.co (FREE - goes directly to your Gmail)
+    try {
+      const emailData = new FormData();
+      emailData.append('name', formData.name);
+      emailData.append('phone', formData.phone);
+      emailData.append('business', formData.business);
+      emailData.append('message', formData.message || 'لا يوجد');
+      emailData.append('_subject', `🔔 طلب جديد من ${formData.name} - ChabakaPro`);
+      emailData.append('_template', 'table');
+      emailData.append('_captcha', 'false');
+      
+      fetch('https://formsubmit.co/ajax/abdellaherraoui3@gmail.com', {
+        method: 'POST',
+        body: emailData
+      }).then(response => {
+        if (response.ok) {
+          console.log('✅ Email sent successfully!');
+        }
+      }).catch(err => console.log('Email error:', err));
+    } catch (error) {
+      console.error('Email sending error:', error);
+    }
+    
+    // 📱 Send to WhatsApp - opens for BOTH numbers
     const whatsappMessage = `🔔 *طلب جديد - ChabakaPro*\n\n👤 *الاسم:* ${formData.name}\n📞 *الهاتف:* ${formData.phone}\n🏪 *النشاط:* ${formData.business}\n💬 *الرسالة:* ${formData.message || 'لا يوجد'}\n\n⏰ *التاريخ:* ${new Date().toLocaleString('ar-MA')}\n\n---\n_تم الإرسال من موقع tech.chabakapro.com_`;
     
     // Open WhatsApp for primary number
