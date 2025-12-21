@@ -1,7 +1,6 @@
 import React from 'react';
 import { Language } from '../types';
 import { LanguageSwitcher } from './LanguageSwitcher';
-import { Shield } from 'lucide-react';
 
 interface NavbarProps {
   lang: Language;
@@ -15,17 +14,11 @@ export const Navbar: React.FC<NavbarProps> = ({ lang, setLang }) => {
         
         {/* Logo */}
         <div className="flex items-center gap-3 hover:opacity-90 transition-opacity cursor-default">
-          <div className="relative flex items-center justify-center w-10 h-10 bg-gradient-to-br from-cyan-500 to-teal-500 rounded-lg shadow-lg shadow-cyan-500/20">
-             <Shield className="w-6 h-6 text-white" strokeWidth={2.5} />
-          </div>
-          <div className="flex items-baseline gap-1">
-            <span className="text-xl font-bold text-white">
-              Chabaka
-            </span>
-            <span className="text-xl font-bold text-cyan-400">
-              Pro
-            </span>
-          </div>
+          <img 
+            src="/logo.png" 
+            alt="ChabakaPro Logo"
+            className="h-10 w-auto"
+          />
         </div>
 
         {/* Right Side */}
