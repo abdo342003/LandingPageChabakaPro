@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>تركيب وصيانة الواي فاي والكاميرات للمحلات | ChabakaPro</title>
+    <meta name="description" content="ChabakaPro توفر تركيب وصيانة الواي فاي والكاميرات للمقاهي والمطاعم والمحلات التجارية بخدمة بسيطة ودعم مستمر." />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              brand: {
+                navy: '#0B2C4D',    // Primary: Deep Navy
+                teal: '#1E88A8',    // Secondary: Soft Teal
+                light: '#F0F9FF',   // Very light blueish gray
+                accent: '#34D399',  // Soft Green for success/trust
+                gold: '#FBBF24',    // Warmth
+              }
+            },
+            fontFamily: {
+              arabic: ['Tajawal', 'sans-serif'],
+              sans: ['Inter', 'sans-serif'],
+            },
+            animation: {
+              'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            }
+          }
+        }
+      }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+      /* Ensure smooth scrolling */
+      html { scroll-behavior: smooth; }
+      
+      /* Custom animation for the main CTA button */
+      @keyframes glow-pulse {
+        0%, 100% { 
+          box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.4);
+          transform: scale(1);
+        }
+        50% { 
+          box-shadow: 0 0 20px 5px rgba(52, 211, 153, 0.2);
+          transform: scale(1.02);
+        }
+      }
+      
+      .animate-glow-pulse {
+        animation: glow-pulse 3s infinite ease-in-out;
+      }
+      
+      /* Cookie consent slide up animation */
+      @keyframes slide-up {
+        from {
+          transform: translateY(100%);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+      
+      .animate-slide-up {
+        animation: slide-up 0.4s ease-out forwards;
+      }
+      
+      /* Modal animations */
+      @keyframes fade-in {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+      
+      @keyframes scale-in {
+        from {
+          opacity: 0;
+          transform: scale(0.9) translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1) translateY(0);
+        }
+      }
+      
+      .animate-fade-in {
+        animation: fade-in 0.2s ease-out forwards;
+      }
+      
+      .animate-scale-in {
+        animation: scale-in 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "react": "https://esm.sh/react@^19.2.3",
+    "lucide-react": "https://esm.sh/lucide-react@^0.561.0",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body>
+    <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>
