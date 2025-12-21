@@ -182,7 +182,6 @@ function App() {
       <Hero content={content.hero} onContactClick={() => setShowContactModal(true)} />
       <Stats content={content.stats} />
       <Services content={content.body} onContactClick={() => setShowContactModal(true)} />
-      <Testimonials content={content.testimonials} />
       <Footer content={content.footer} />
       
       {/* Contact Modal Popup */}
