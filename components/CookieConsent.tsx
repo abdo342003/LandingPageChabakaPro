@@ -69,6 +69,7 @@ export const CookieConsent: React.FC<CookieConsentProps> = ({ content, onAccept,
         {/* Close button */}
         <button
           onClick={handleDecline}
+          aria-label="Fermer"
           className="absolute top-2 end-2 md:hidden text-slate-400 hover:text-slate-600 p-1"
         >
           <X className="w-5 h-5" />

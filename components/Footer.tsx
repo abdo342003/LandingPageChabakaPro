@@ -74,7 +74,7 @@ export const Footer: React.FC<FooterProps> = ({ content }) => {
             {content.locations}
           </div>
           
-          <div className="mt-8 text-slate-500 text-sm">
+          <div className="mt-8 text-slate-400 text-sm">
              © {new Date().getFullYear()} ChabakaPro. All rights reserved.
           </div>
         </div>

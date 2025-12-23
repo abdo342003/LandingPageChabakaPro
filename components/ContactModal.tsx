@@ -173,6 +173,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({ content, isOpen, onC
         {/* Close Button */}
         <button
           onClick={onClose}
+          aria-label="Fermer"
           className="absolute top-4 end-4 z-10 bg-slate-100 hover:bg-slate-200 p-2 rounded-full transition-colors"
         >
           <X className="w-5 h-5 text-slate-600" />
@@ -191,7 +192,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({ content, isOpen, onC
           <div className="p-8">
             {/* Header */}
             <div className="text-center mb-8">
-              <div className="inline-flex items-center gap-2 bg-brand-teal/10 text-brand-teal px-4 py-2 rounded-full text-sm font-bold mb-4">
+              <div className="inline-flex items-center gap-2 bg-cyan-100 text-cyan-900 px-4 py-2 rounded-full text-sm font-bold mb-4">
                 <Sparkles className="w-4 h-4" />
                 <span>Devis Gratuit</span>
               </div>
