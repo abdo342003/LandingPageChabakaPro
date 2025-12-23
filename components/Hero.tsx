@@ -21,6 +21,9 @@ export const Hero: React.FC<HeroProps> = ({ content, onContactClick }) => {
           <img 
             src="/Morocco 3D holographic map from space.png" 
             alt="Morocco 3D Holographic Map"
+            loading="lazy"
+            width="1920"
+            height="1080"
             className="w-full h-full object-cover opacity-80 scale-110 mix-blend-screen"
           />
         </div>

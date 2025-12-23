@@ -17,6 +17,9 @@ export const Footer: React.FC<FooterProps> = ({ content }) => {
             <img 
               src="/logo-transparent.png" 
               alt="ChabakaPro IT Solutions"
+              loading="lazy"
+              width="200"
+              height="128"
               className="h-24 sm:h-28 md:h-32 w-auto drop-shadow-[0_0_30px_rgba(34,211,238,0.5)] hover:drop-shadow-[0_0_40px_rgba(34,211,238,0.7)] transition-all duration-300"
             />
           </div>

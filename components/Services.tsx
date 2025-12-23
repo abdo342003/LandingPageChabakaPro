@@ -98,6 +98,9 @@ export const Services: React.FC<ServicesProps> = ({ content, onContactClick }) =
               <img 
                 src="/Laptop and smartphone with glowing shield protection.png" 
                 alt="Digital Protection - حماية رقمية"
+                loading="lazy"
+                width="800"
+                height="600"
                 className="w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-purple-50 to-transparent"></div>
@@ -142,6 +145,9 @@ export const Services: React.FC<ServicesProps> = ({ content, onContactClick }) =
               <img 
                 src="/des repeteurs wifi pour la propagation du wifi.png" 
                 alt="WiFi Coverage Extension - توسيع تغطية الواي فاي"
+                loading="lazy"
+                width="800"
+                height="600"
                 className="w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-cyan-50 to-transparent"></div>

@@ -22,6 +22,8 @@ export const Navbar: React.FC<NavbarProps> = ({ lang, setLang }) => {
             <img 
               src="/logo-transparent.png" 
               alt="ChabakaPro IT Solutions"
+              width="200"
+              height="80"
               className="h-14 sm:h-16 md:h-20 w-auto relative z-10 drop-shadow-[0_0_20px_rgba(34,211,238,0.4)] group-hover:drop-shadow-[0_0_30px_rgba(34,211,238,0.6)] transition-all duration-300"
             />
           </div>
