@@ -1,6 +1,7 @@
 import React from 'react';
 import { Language } from '../types';
 import { LanguageSwitcher } from './LanguageSwitcher';
+import logoTransparent from '/logo-transparent.png';
 
 interface NavbarProps {
   lang: Language;
@@ -20,7 +21,7 @@ export const Navbar: React.FC<NavbarProps> = ({ lang, setLang }) => {
             
             {/* Your Logo Image */}
             <img 
-              src="/logo-transparent.png" 
+              src={logoTransparent} 
               alt="ChabakaPro IT Solutions"
               width="200"
               height="80"

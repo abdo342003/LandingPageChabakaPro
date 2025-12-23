@@ -1,6 +1,7 @@
 import React from 'react';
 import { Content } from '../types';
 import { Phone, MessageCircle, MapPin, Award, ShieldCheck, ThumbsUp } from 'lucide-react';
+import logoTransparent from '/logo-transparent.png';
 
 interface FooterProps {
   content: Content['footer'];
@@ -15,7 +16,7 @@ export const Footer: React.FC<FooterProps> = ({ content }) => {
           {/* Footer Logo - Your Brand Image */}
           <div className="mb-8 flex flex-col items-center">
             <img 
-              src="/logo-transparent.png" 
+              src={logoTransparent} 
               alt="ChabakaPro IT Solutions"
               loading="lazy"
               width="200"
