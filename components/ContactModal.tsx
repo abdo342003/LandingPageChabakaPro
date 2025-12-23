@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Content, UserSubmission } from '../types';
 import { Send, CheckCircle, User, Phone, Store, MessageSquare, X, Sparkles } from 'lucide-react';
 import { getDeviceInfo } from '../utils/deviceInfo';
+import { supabase } from '../utils/supabase';
 
 interface ContactModalProps {
   content: Content['contact'];
@@ -44,38 +45,59 @@ export const ContactModal: React.FC<ContactModalProps> = ({ content, isOpen, onC
     window.open(whatsappUrl, '_blank');
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name || !formData.phone || !formData.business) return;
     
     setIsSubmitting(true);
     const deviceInfo = getDeviceInfo();
     
-    // Create submission object
-    const submission: UserSubmission = {
-      id: Date.now().toString(),
-      name: formData.name,
-      phone: formData.phone,
-      business: formData.business,
-      message: formData.message,
-      timestamp: new Date(),
-      status: 'new',
-      deviceInfo: deviceInfo
-    };
-    
-    // Save to localStorage
+    // Save directly to Supabase database
     try {
-      const existingData = localStorage.getItem('chabakapro_submissions');
-      const submissions = existingData ? JSON.parse(existingData) : [];
-      submissions.unshift(submission);
-      localStorage.setItem('chabakapro_submissions', JSON.stringify(submissions));
-      console.log('✅ Submission saved to localStorage:', submission);
+      const { data, error } = await supabase
+        .from('submissions')
+        .insert([{
+          name: formData.name,
+          phone: formData.phone,
+          business: formData.business,
+          message: formData.message,
+          timestamp: new Date().toISOString(),
+          status: 'new',
+          device_info: deviceInfo
+        }])
+        .select();
+      
+      if (error) {
+        console.error('❌ Error saving to Supabase:', error);
+        alert('حدث خطأ في حفظ الطلب. يرجى المحاولة مرة أخرى.');
+        setIsSubmitting(false);
+        return;
+      }
+      
+      console.log('✅ Submission saved to Supabase:', data);
+      
+      // Create submission object for parent component
+      if (data && data[0]) {
+        const submission: UserSubmission = {
+          id: data[0].id,
+          name: data[0].name,
+          phone: data[0].phone,
+          business: data[0].business,
+          message: data[0].message,
+          timestamp: new Date(data[0].timestamp),
+          status: data[0].status,
+          deviceInfo: data[0].device_info
+        };
+        
+        // Notify parent component
+        onSubmit(submission);
+      }
     } catch (error) {
-      console.error('Error saving to localStorage:', error);
+      console.error('Error saving to Supabase:', error);
+      alert('حدث خطأ في الاتصال. يرجى التحقق من اتصال الإنترنت.');
+      setIsSubmitting(false);
+      return;
     }
-    
-    // Notify parent component
-    onSubmit(submission);
     
     // 📧 SEND EMAIL via FormSubmit.co (FREE - goes directly to your Gmail)
     try {

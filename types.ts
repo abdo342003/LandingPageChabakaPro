@@ -99,6 +99,79 @@ export interface CookieConsentContent {
   learnMore: string;
 }
 
+// Supabase Database Types
+export interface Database {
+  public: {
+    Tables: {
+      submissions: {
+        Row: {
+          id: string;
+          name: string;
+          phone: string;
+          business: string;
+          message: string;
+          timestamp: string;
+          status: 'new' | 'contacted' | 'completed';
+          device_info: {
+            browser: string;
+            browserVersion: string;
+            os: string;
+            device: string;
+            screenSize: string;
+            language: string;
+            timezone: string;
+            referrer: string;
+            pageUrl: string;
+          } | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          name: string;
+          phone: string;
+          business: string;
+          message: string;
+          timestamp?: string;
+          status?: 'new' | 'contacted' | 'completed';
+          device_info?: {
+            browser: string;
+            browserVersion: string;
+            os: string;
+            device: string;
+            screenSize: string;
+            language: string;
+            timezone: string;
+            referrer: string;
+            pageUrl: string;
+          } | null;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          name?: string;
+          phone?: string;
+          business?: string;
+          message?: string;
+          timestamp?: string;
+          status?: 'new' | 'contacted' | 'completed';
+          device_info?: {
+            browser: string;
+            browserVersion: string;
+            os: string;
+            device: string;
+            screenSize: string;
+            language: string;
+            timezone: string;
+            referrer: string;
+            pageUrl: string;
+          } | null;
+          created_at?: string;
+        };
+      };
+    };
+  };
+}
+
 export interface AdminContent {
   title: string;
   totalSubmissions: string;

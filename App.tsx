@@ -11,6 +11,7 @@ import { Footer } from './components/Footer';
 import { AdminPanel } from './components/AdminPanel';
 import { AdminLogin } from './components/AdminLogin';
 import { CookieConsent } from './components/CookieConsent';
+import { supabase } from './utils/supabase';
 
 // Local storage keys
 const STORAGE_KEYS = {
@@ -49,31 +50,46 @@ function App() {
   });
   const [showContactModal, setShowContactModal] = useState(false);
   const [submissions, setSubmissions] = useState<UserSubmission[]>([]);
+  const [isLoadingSubmissions, setIsLoadingSubmissions] = useState(true);
 
-  // Load submissions from localStorage on mount
+  // Load submissions from Supabase on mount
   useEffect(() => {
-    const stored = localStorage.getItem(STORAGE_KEYS.SUBMISSIONS);
-    if (stored) {
+    const loadSubmissions = async () => {
       try {
-        const parsed = JSON.parse(stored);
-        setSubmissions(parsed.map((s: UserSubmission) => ({
-          ...s,
-          timestamp: new Date(s.timestamp)
-        })));
+        setIsLoadingSubmissions(true);
+        const { data, error } = await supabase
+          .from('submissions')
+          .select('*')
+          .order('created_at', { ascending: false });
+        
+        if (error) {
+          console.error('Error loading from Supabase:', error);
+          setSubmissions([]);
+        } else if (data) {
+          // Convert Supabase data to UserSubmission format
+          const formattedData = data.map(item => ({
+            id: item.id,
+            name: item.name,
+            phone: item.phone,
+            business: item.business,
+            message: item.message,
+            timestamp: new Date(item.timestamp),
+            status: item.status as UserSubmission['status'],
+            deviceInfo: item.device_info
+          }));
+          setSubmissions(formattedData);
+          console.log(`✅ Loaded ${formattedData.length} submissions from Supabase`);
+        }
       } catch (e) {
         console.error('Error loading submissions:', e);
-        // Reset corrupted data
-        localStorage.removeItem(STORAGE_KEYS.SUBMISSIONS);
+        setSubmissions([]);
+      } finally {
+        setIsLoadingSubmissions(false);
       }
-    }
-  }, []);
+    };
 
-  // Save submissions to localStorage whenever they change
-  useEffect(() => {
-    if (submissions.length > 0) {
-      localStorage.setItem(STORAGE_KEYS.SUBMISSIONS, JSON.stringify(submissions));
-    }
-  }, [submissions]);
+    loadSubmissions();
+  }, []);
 
   // Save language preference
   useEffect(() => {
@@ -164,14 +180,48 @@ function App() {
     setSubmissions(prev => [submission, ...prev]);
   }, []);
 
-  const handleUpdateStatus = useCallback((id: string, status: UserSubmission['status']) => {
+  const handleUpdateStatus = useCallback(async (id: string, status: UserSubmission['status']) => {
+    // Update in Supabase
+    try {
+      const { error } = await supabase
+        .from('submissions')
+        .update({ status })
+        .eq('id', id);
+      
+      if (error) {
+        console.error('Error updating status in Supabase:', error);
+      } else {
+        console.log('✅ Status updated in Supabase');
+      }
+    } catch (error) {
+      console.error('Error updating status:', error);
+    }
+    
+    // Update local state
     setSubmissions(prev => 
       prev.map(s => s.id === id ? { ...s, status } : s)
     );
   }, []);
 
-  const handleDeleteSubmission = useCallback((id: string) => {
+  const handleDeleteSubmission = useCallback(async (id: string) => {
     if (confirm('Are you sure you want to delete this submission?')) {
+      // Delete from Supabase
+      try {
+        const { error } = await supabase
+          .from('submissions')
+          .delete()
+          .eq('id', id);
+        
+        if (error) {
+          console.error('Error deleting from Supabase:', error);
+        } else {
+          console.log('✅ Deleted from Supabase');
+        }
+      } catch (error) {
+        console.error('Error deleting submission:', error);
+      }
+      
+      // Update local state
       setSubmissions(prev => prev.filter(s => s.id !== id));
     }
   }, []);
