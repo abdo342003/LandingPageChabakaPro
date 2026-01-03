@@ -99,6 +99,91 @@ export interface CookieConsentContent {
   learnMore: string;
 }
 
+export interface UrgencyBannerContent {
+  limitedOffer: string;
+  discount: string;
+  endsIn: string;
+  spotsLeft: string;
+  spots: string;
+}
+
+export interface WhatsAppWidgetContent {
+  companyName: string;
+  onlineNow: string;
+  greeting: string;
+  startChat: string;
+  responseTime: string;
+}
+
+export interface ExitIntentContent {
+  wait: string;
+  extraDiscount: string;
+  bookToday: string;
+  benefits: {
+    discount: string;
+    consultation: string;
+    guarantee: string;
+  };
+  callNow: string;
+  orLeaveInfo: string;
+  offerExpires: string;
+}
+
+export interface ROICalculatorContent {
+  badge: string;
+  title: string;
+  subtitle: string;
+  businessInfo: string;
+  businessType: string;
+  businessTypes: {
+    cafe: string;
+    restaurant: string;
+    retail: string;
+  };
+  monthlyRevenue: string;
+  securityIssues: string;
+  problems: string;
+  yearlyReturn: string;
+  savingsAndProfit: string;
+  monthlyBreakdown: string;
+  preventedLoss: string;
+  productivityGain: string;
+  customerRetention: string;
+  serviceCost: string;
+  netMonthlyProfit: string;
+  roi: string;
+  roiDescription: string;
+  realNumbers: string;
+  joinSmart: string;
+  startSaving: string;
+}
+
+export interface BeforeAfterContent {
+  title: string;
+  subtitle: string;
+  before: string;
+  after: string;
+  beforeTitle: string;
+  afterTitle: string;
+  problems: {
+    wifi: { title: string; description: string };
+    cameras: { title: string; description: string };
+    technical: { title: string; description: string };
+    support: { title: string; description: string };
+  };
+  solutions: {
+    wifi: { title: string; description: string };
+    cameras: { title: string; description: string };
+    maintenance: { title: string; description: string };
+    support: { title: string; description: string };
+  };
+  beforeSummary: string;
+  afterSummary: string;
+  readyToTransform: string;
+  startNow: string;
+  benefits: string;
+}
+
 // Supabase Database Types
 export interface Database {
   public: {
